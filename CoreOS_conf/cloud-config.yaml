@@ -1,0 +1,74 @@
+#cloud-config
+#Account Settings
+hostname: coreOS_elk
+users:
+ - name: core
+   passwd: $1$tVAPFME/$atH/juKHjA6WFbyG9mm41/
+   groups:
+    - sudo
+    - docker
+   ssh-authorized-keys:
+    - ssh-rsa AAAAB3NzaC1yc2EAAAAxxxxxWX0HIwogga74otCsTI8Nk6WxfWo2elpjAE2W/bQv2G81d0kagQmkNXA2228sXhrxxxxxRGSPKswFE/Af1kNVVLDNhAtx9ZeevXePgSgcU0DNSi7O3EtFUMeIrmoGR11t3zRtR4OBrCTwlUv2e2XRur7b3hOmAIM8dg61FlDVtJFJCWWi1qmSdSvVp0LFyPcDMx30fFoV1lwsr7kes2HrDazQMPUmH8GUQL4MODoO1F9intXDaaVTPcODK/IS5cbrGEk+hAgWE4jySSLbd9MdYEYWJXPi6yUsi8xjpe4dK0z71YNjNzN0AMrVNowRb ssh key for coreOS_elk
+
+#static networking
+coreos:
+ units:
+ - name: 10-admin.network
+   runtime: true
+   content: |
+    [Match]
+    Name=ens32
+    [Network]
+    Address=10.0.255.249/16
+ - name: 20-internal.network
+   runtime: true
+   content: |
+    [Match]
+    Name=ens33
+    [Network]
+    Address=172.16.255.249/16
+    Gateway=172.16.255.254
+    DNS=8.8.8.8
+
+#Docker configuration
+#we add the registry for Adharacs
+
+#Parameters for SSL-autosigned cert
+write_files:
+ - path: /etc/systemd/system/docker.service.d/50-insecure-registry.conf
+   content: |
+    [Service]
+    Environment=DOCKER_OPTS='--insecure-registry="registry.tadam.com:443"'
+
+#disabling ipv6
+write_files:
+  - path: /etc/sysctl.d/10-disable-ipv6.conf
+    permissions: 0644
+    owner: root
+    content: |
+      net.ipv6.conf.all.disable_ipv6 = 1
+      
+#DNS configuration
+write_files:
+  - path: /etc/resolv.conf
+    permissions: 0644
+    owner: root
+    content: |
+     nameserver 8.8.8.8
+
+#Authentification credentials for docker repository
+write_files:
+  - path: /home/core/.dockercfg
+    owner: core:core
+    permissions: 0644
+    content: |
+    {
+    "https://registry.adharacs.com": {
+      "auth": "YXltZXJpYy50YWJvdXJpbjpBxxxxxQHJlZ2lzdHJ5LmFkaGFyYWNzLmNvbSFhdA==",
+      "email": "tadam@tadam.com"
+    },
+    "registry.adharacs.com:443": {
+      "auth": "YXltZXJpYy50YWJvdxxxxJlZ2lzdHJ5LmFkaGFyYWNzLmNvbSFhdA==",
+      "email": "tadam@tadam.com"
+    }
+    }
