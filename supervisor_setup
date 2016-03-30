@@ -1,0 +1,60 @@
+##questions : 
+on binde le 9001 de supervisord en externe du conteneur elk ? 
+
+
+#sur elk
+
+/etc/supervisor/conf.d/logstash.conf
+
+	[program:logstash start]
+	command=service logstash start
+	autostart=true
+	autorestart=false
+
+	[program:logstash stop]
+	autostart=false
+	autorestart=false
+
+
+/etc/supervisor/conf.d/es.conf
+
+	[program:elasticsearch start]
+	command=service elasticsearch start
+	autostart=true
+	autorestart=false
+
+	[program:elasticsearch stop]
+	autostart=false
+	autorestart=false
+
+/etc/supervisor/conf.d/kibana.conf
+
+	[program:kibana start]
+	command=service kibana4 start
+	autostart=true
+	autorestart=false
+
+	[program:kibana4 stop]
+	autostart=false
+	autorestart=false
+
+#sur lumberjack:
+
+/etc/supervisor/supervisord.conf
+
+	[supervisord]
+	loglevel=info
+	nodaemon=true
+	logfile=/var/log/supervisor/supervisord.log ;
+	pidfile=/var/run/supervisord.pid ;
+	childlogdir=/var/log/supervisor ;
+
+	[include]
+	files = /etc/supervisor/conf.d/*.conf
+
+/etc/supervisor/conf.d/logstash-forwarder.conf
+
+	[program:logstash-forwarder]
+	command=/opt/logstash-forwarder/bin/logstash-forwarder -config /etc/logstash-forwarder.conf >> /var/log/logstash-forwarder/logstash-forwarder.log 2>> /var/log/logstash-forwarder/logstash-forwarder.err
+	stopwaitsecs=20
+
