@@ -1,8 +1,4 @@
-##questions : 
-on binde le 9001 de supervisord en externe du conteneur elk ? 
-
-
-#sur elk
+#on elk host
 
 /etc/supervisor/conf.d/logstash.conf
 
@@ -38,7 +34,7 @@ on binde le 9001 de supervisord en externe du conteneur elk ?
 	autostart=false
 	autorestart=false
 
-#sur lumberjack:
+#on lumberjacks:
 
 /etc/supervisor/supervisord.conf
 

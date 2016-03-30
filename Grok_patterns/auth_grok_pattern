@@ -1,0 +1,8 @@
+# Patterns to process auth.log
+
+AUTHDATE %{MONTH} %{MONTHDAY} %{HOUR}:%{MINUTE}:%{SECOND}
+AUTHMETHOD su|sudo
+PID [0-9]+
+USER [a-zA-Z0-9_-]+
+STATUS opened|closed
+UNIXPATH (?>/(?>[\w_%!$@:.,-]+|\\.)*)+

@@ -10,11 +10,11 @@
 #for auth.log
 #generalpattern:
 
-ACS-Backup \[%{INT:pid}\] %{IP:src_ip} \[%{MONTHDAY}/%{MONTH}/%{YEAR}:%{HOUR}:%{MINUTE}:%{SECOND} \+0200\]%{GREEDYDATA:auth_message}
+ackup \[%{INT:pid}\] %{IP:src_ip} \[%{MONTHDAY}/%{MONTH}/%{YEAR}:%{HOUR}:%{MINUTE}:%{SECOND} \+0200\]%{GREEDYDATA:auth_message}
 
 #user pattern
 
-ACS-Backup \[%{INT:pid}\] %{IP:src_ip} \[%{MONTHDAY}/%{MONTH}/%{YEAR}:%{HOUR}:%{MINUTE}:%{SECOND} \+0200\] "USER %{WORD:username}" 331
+Backup \[%{INT:pid}\] %{IP:src_ip} \[%{MONTHDAY}/%{MONTH}/%{YEAR}:%{HOUR}:%{MINUTE}:%{SECOND} \+0200\] "USER %{WORD:username}" 331
 
 #password pattern: 
-ACS-Backup \[%{INT:pid}\] %{IP:src_ip} \[%{MONTHDAY}/%{MONTH}/%{YEAR}:%{HOUR}:%{MINUTE}:%{SECOND} \+0200\] "PASS%{GREEDYDATA:password}" 550
+Backup \[%{INT:pid}\] %{IP:src_ip} \[%{MONTHDAY}/%{MONTH}/%{YEAR}:%{HOUR}:%{MINUTE}:%{SECOND} \+0200\] "PASS%{GREEDYDATA:password}" 550
