@@ -1,0 +1,8 @@
+#from clamav.log
+#get last update and number of current signatures
+
+%{DAY} %{MONTH:month_update} %{MONTHDAY:monthday_update} %{HOUR:hour_update}:%{MINUTE:minute_update}:%{SECOND} %{YEAR} -> Database correctly reloaded \(%{NUMBER:nb_signatures_update} signatures\)
+
+#get current status and last update 
+#pattern 
+%{DAY} %{MONTH:month} %{MONTHDAY:monthday} %{HOUR:hour}:%{MINUTE:minute}:%{SECOND} %{YEAR} -> SelfCheck: Database status %{WORD:status}.

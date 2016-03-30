@@ -1,0 +1,20 @@
+#for proftpd.log
+#pattern: 
+
+%{MONTH} %{MONTHDAY} %{HOUR}:%{MINUTE}:%{SECOND} %{HOSTNAME:hostname} %{WORD:program}\[%{INT:pid}\] %{IP:ip_host} \(%{IP:ip_src}\[%{IP}\]\): %{GREEDYDATA:message}
+
+#for access.log
+#pattern:
+%{IP:ip_src} %{WORD} %{WORD:program} \[%{MONTHDAY}/%{MONTH}/%{YEAR}:%{HOUR}:%{MINUTE}:%{SECOND} \+0200\] %{GREEDYDATA:request}
+
+#for auth.log
+#generalpattern:
+
+ACS-Backup \[%{INT:pid}\] %{IP:src_ip} \[%{MONTHDAY}/%{MONTH}/%{YEAR}:%{HOUR}:%{MINUTE}:%{SECOND} \+0200\]%{GREEDYDATA:auth_message}
+
+#user pattern
+
+ACS-Backup \[%{INT:pid}\] %{IP:src_ip} \[%{MONTHDAY}/%{MONTH}/%{YEAR}:%{HOUR}:%{MINUTE}:%{SECOND} \+0200\] "USER %{WORD:username}" 331
+
+#password pattern: 
+ACS-Backup \[%{INT:pid}\] %{IP:src_ip} \[%{MONTHDAY}/%{MONTH}/%{YEAR}:%{HOUR}:%{MINUTE}:%{SECOND} \+0200\] "PASS%{GREEDYDATA:password}" 550

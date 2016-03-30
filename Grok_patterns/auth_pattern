@@ -1,0 +1,3 @@
+#from auth.log
+#pattern
+%{MONTH} %{MONTHDAY} %{HOUR}:%{MINUTE}:%{SECOND} %{HOSTNAME:hostname} %{GREEDYDATA:program}:%{GREEDYDATA:auth_msg}
